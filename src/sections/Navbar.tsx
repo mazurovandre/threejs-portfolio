@@ -19,11 +19,6 @@ function Navigation() {
         </a>
       </li>
       <li className='nav-li'>
-        <a className='nav-link' href='#work'>
-          {t('nav.projects')}
-        </a>
-      </li>
-      <li className='nav-li'>
         <a className='nav-link' href='#contact'>
           {t('nav.contact')}
         </a>
@@ -43,7 +38,7 @@ const Navbar: React.FC = () => {
             href='/'
             className='text-xl font-bold transition-colors text-neutral-400 hover:text-white'
           >
-            Ali
+            @mazurovandre
           </a>
           <div className='flex items-center gap-4'>
             <LanguageSwitcher />

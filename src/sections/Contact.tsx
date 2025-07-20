@@ -61,7 +61,10 @@ const Contact: React.FC = () => {
   };
 
   return (
-    <section className='relative flex items-center c-space section-spacing'>
+    <section
+      className='relative flex items-center c-space section-spacing'
+      id='contact'
+    >
       <Particles
         className='absolute inset-0 -z-50'
         quantity={100}
