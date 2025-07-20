@@ -1,35 +1,66 @@
-import { twMerge } from "tailwind-merge";
-import React, { useEffect, useRef, useState } from "react";
+import { twMerge } from 'tailwind-merge';
+import { useEffect, useRef, useState } from 'react';
 
-function MousePosition() {
-  const [mousePosition, setMousePosition] = useState({
+interface MousePosition {
+  x: number;
+  y: number;
+}
+
+interface Circle {
+  x: number;
+  y: number;
+  translateX: number;
+  translateY: number;
+  size: number;
+  alpha: number;
+  targetAlpha: number;
+  dx: number;
+  dy: number;
+  magnetism: number;
+}
+
+interface ParticlesProps {
+  className?: string;
+  quantity?: number;
+  staticity?: number;
+  ease?: number;
+  size?: number;
+  refresh?: boolean;
+  color?: string;
+  vx?: number;
+  vy?: number;
+  [key: string]: any;
+}
+
+function MousePosition(): MousePosition {
+  const [mousePosition, setMousePosition] = useState<MousePosition>({
     x: 0,
     y: 0,
   });
 
   useEffect(() => {
-    const handleMouseMove = (event) => {
+    const handleMouseMove = (event: MouseEvent) => {
       setMousePosition({ x: event.clientX, y: event.clientY });
     };
 
-    window.addEventListener("mousemove", handleMouseMove);
+    window.addEventListener('mousemove', handleMouseMove);
 
     return () => {
-      window.removeEventListener("mousemove", handleMouseMove);
+      window.removeEventListener('mousemove', handleMouseMove);
     };
   }, []);
 
   return mousePosition;
 }
 
-function hexToRgb(hex) {
-  hex = hex.replace("#", "");
+function hexToRgb(hex: string): [number, number, number] {
+  hex = hex.replace('#', '');
 
   if (hex.length === 3) {
     hex = hex
-      .split("")
-      .map((char) => char + char)
-      .join("");
+      .split('')
+      .map((char: string) => char + char)
+      .join('');
   }
 
   const hexInt = parseInt(hex, 16);
@@ -40,31 +71,31 @@ function hexToRgb(hex) {
 }
 
 export const Particles = ({
-  className = "",
+  className = '',
   quantity = 100,
   staticity = 50,
   ease = 50,
   size = 0.4,
   refresh = false,
-  color = "#ffffff",
+  color = '#ffffff',
   vx = 0,
   vy = 0,
   ...props
-}) => {
-  const canvasRef = useRef(null);
-  const canvasContainerRef = useRef(null);
-  const context = useRef(null);
-  const circles = useRef([]);
+}: ParticlesProps) => {
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const canvasContainerRef = useRef<HTMLDivElement>(null);
+  const context = useRef<CanvasRenderingContext2D | null>(null);
+  const circles = useRef<Circle[]>([]);
   const mousePosition = MousePosition();
   const mouse = useRef({ x: 0, y: 0 });
   const canvasSize = useRef({ w: 0, h: 0 });
-  const dpr = typeof window !== "undefined" ? window.devicePixelRatio : 1;
-  const rafID = useRef(null);
-  const resizeTimeout = useRef(null);
+  const dpr = typeof window !== 'undefined' ? window.devicePixelRatio : 1;
+  const rafID = useRef<number | null>(null);
+  const resizeTimeout = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
     if (canvasRef.current) {
-      context.current = canvasRef.current.getContext("2d");
+      context.current = canvasRef.current.getContext('2d');
     }
     initCanvas();
     animate();
@@ -78,7 +109,7 @@ export const Particles = ({
       }, 200);
     };
 
-    window.addEventListener("resize", handleResize);
+    window.addEventListener('resize', handleResize);
 
     return () => {
       if (rafID.current != null) {
@@ -87,7 +118,7 @@ export const Particles = ({
       if (resizeTimeout.current) {
         clearTimeout(resizeTimeout.current);
       }
-      window.removeEventListener("resize", handleResize);
+      window.removeEventListener('resize', handleResize);
     };
   }, [color]);
 
@@ -138,7 +169,7 @@ export const Particles = ({
     }
   };
 
-  const circleParams = () => {
+  const circleParams = (): Circle => {
     const x = Math.floor(Math.random() * canvasSize.current.w);
     const y = Math.floor(Math.random() * canvasSize.current.h);
     const translateX = 0;
@@ -165,13 +196,13 @@ export const Particles = ({
 
   const rgb = hexToRgb(color);
 
-  const drawCircle = (circle, update = false) => {
+  const drawCircle = (circle: Circle, update = false) => {
     if (context.current) {
       const { x, y, translateX, translateY, size, alpha } = circle;
       context.current.translate(translateX, translateY);
       context.current.beginPath();
       context.current.arc(x, y, size, 0, 2 * Math.PI);
-      context.current.fillStyle = `rgba(${rgb.join(", ")}, ${alpha})`;
+      context.current.fillStyle = `rgba(${rgb.join(', ')}, ${alpha})`;
       context.current.fill();
       context.current.setTransform(dpr, 0, 0, dpr, 0, 0);
 
@@ -201,7 +232,13 @@ export const Particles = ({
     }
   };
 
-  const remapValue = (value, start1, end1, start2, end2) => {
+  const remapValue = (
+    value: number,
+    start1: number,
+    end1: number,
+    start2: number,
+    end2: number
+  ): number => {
     const remapped =
       ((value - start1) * (end2 - start2)) / (end1 - start1) + start2;
     return remapped > 0 ? remapped : 0;
@@ -259,12 +296,12 @@ export const Particles = ({
 
   return (
     <div
-      className={twMerge("pointer-events-none", className)}
+      className={twMerge('pointer-events-none', className)}
       ref={canvasContainerRef}
-      aria-hidden="true"
+      aria-hidden='true'
       {...props}
     >
-      <canvas ref={canvasRef} className="size-full" />
+      <canvas ref={canvasRef} className='size-full' />
     </div>
   );
 };

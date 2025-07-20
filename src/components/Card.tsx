@@ -5,7 +5,7 @@ interface CardProps {
   style?: React.CSSProperties;
   text?: string;
   image?: string;
-  containerRef: React.RefObject<HTMLElement>;
+  containerRef: React.RefObject<HTMLDivElement | null>;
 }
 
 const Card: React.FC<CardProps> = ({ style, text, image, containerRef }) => {

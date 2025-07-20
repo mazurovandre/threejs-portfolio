@@ -1,10 +1,11 @@
-import { Timeline } from "../components/Timeline";
-import { experiences } from "../constants";
-const Experiences = () => {
+import { Timeline } from '../components/Timeline';
+import { experiences } from '../constants';
+
+const Experiences: React.FC = () => {
   return (
-    <div className="w-full">
+    <section className='c-space section-spacing' id='work'>
       <Timeline data={experiences} />
-    </div>
+    </section>
   );
 };
 

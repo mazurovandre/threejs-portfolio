@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import ProjectDetails from './ProjectDetails';
 import { ProjectProps } from '../types';
 
@@ -13,7 +14,9 @@ const Project: React.FC<ProjectProps> = ({
   tags,
   setPreview,
 }) => {
+  const { t } = useTranslation();
   const [isHidden, setIsHidden] = useState(false);
+
   return (
     <>
       <div
@@ -44,7 +47,7 @@ const Project: React.FC<ProjectProps> = ({
           onClick={() => setIsHidden(true)}
           className='flex items-center gap-1 cursor-pointer hover-animation'
         >
-          Read More
+          {t('projects.readMore')}
           <img src='assets/arrow-right.svg' className='w-5' alt='arrow right' />
         </button>
       </div>

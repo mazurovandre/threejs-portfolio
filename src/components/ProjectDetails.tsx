@@ -1,4 +1,5 @@
 import { motion } from 'motion/react';
+import { useTranslation } from 'react-i18next';
 import { ProjectDetailsProps } from '../types';
 
 const ProjectDetails: React.FC<ProjectDetailsProps> = ({
@@ -10,6 +11,8 @@ const ProjectDetails: React.FC<ProjectDetailsProps> = ({
   href,
   closeModal,
 }) => {
+  const { t } = useTranslation();
+
   return (
     <div className='fixed inset-0 z-50 flex items-center justify-center w-full h-full overflow-hidden backdrop-blur-sm'>
       <motion.div
@@ -49,7 +52,7 @@ const ProjectDetails: React.FC<ProjectDetailsProps> = ({
               rel='noopener noreferrer'
               className='inline-flex items-center gap-1 font-medium cursor-pointer hover-animation'
             >
-              View Project{' '}
+              {t('projects.viewProject')}{' '}
               <img
                 src='assets/arrow-up.svg'
                 className='size-4'

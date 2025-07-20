@@ -1,10 +1,12 @@
 import { useState, ChangeEvent, FormEvent } from 'react';
+import { useTranslation } from 'react-i18next';
 import emailjs from '@emailjs/browser';
 import Alert from '../components/Alert';
 import { Particles } from '../components/Particles';
 import { FormData } from '../types';
 
 const Contact: React.FC = () => {
+  const { t } = useTranslation();
   const [formData, setFormData] = useState<FormData>({
     name: '',
     email: '',
@@ -50,11 +52,11 @@ const Contact: React.FC = () => {
       );
       setIsLoading(false);
       setFormData({ name: '', email: '', message: '' });
-      showAlertMessage('success', 'You message has been sent!');
+      showAlertMessage('success', t('contact.alerts.success'));
     } catch (error) {
       setIsLoading(false);
       console.log(error);
-      showAlertMessage('error', 'Somthing went wrong!');
+      showAlertMessage('error', t('contact.alerts.error'));
     }
   };
 
@@ -70,23 +72,22 @@ const Contact: React.FC = () => {
       {showAlert && <Alert type={alertType} message={alertMessage} />}
       <div className='flex flex-col items-center justify-center max-w-md p-5 mx-auto border border-white/10 rounded-2xl bg-primary'>
         <div className='flex flex-col items-start w-full gap-5 mb-10'>
-          <h2 className='text-heading'>Let's Talk</h2>
+          <h2 className='text-heading'>{t('contact.title')}</h2>
           <p className='font-normal text-neutral-400'>
-            Whether you're loking to build a new website, improve your existing
-            platform, or bring a unique project to life, I'm here to help
+            {t('contact.description')}
           </p>
         </div>
         <form className='w-full' onSubmit={handleSubmit}>
           <div className='mb-5'>
             <label htmlFor='name' className='feild-label'>
-              Full Name
+              {t('contact.form.fullName')}
             </label>
             <input
               id='name'
               name='name'
               type='text'
               className='field-input field-input-focus'
-              placeholder='John Doe'
+              placeholder={t('contact.form.placeholders.name')}
               autoComplete='name'
               value={formData.name}
               onChange={handleChange}
@@ -95,14 +96,14 @@ const Contact: React.FC = () => {
           </div>
           <div className='mb-5'>
             <label htmlFor='email' className='feild-label'>
-              Email
+              {t('contact.form.email')}
             </label>
             <input
               id='email'
               name='email'
               type='email'
               className='field-input field-input-focus'
-              placeholder='JohnDoe@email.com'
+              placeholder={t('contact.form.placeholders.email')}
               autoComplete='email'
               value={formData.email}
               onChange={handleChange}
@@ -111,14 +112,14 @@ const Contact: React.FC = () => {
           </div>
           <div className='mb-5'>
             <label htmlFor='message' className='feild-label'>
-              Message
+              {t('contact.form.message')}
             </label>
             <textarea
               id='message'
               name='message'
               rows={4}
               className='field-input field-input-focus'
-              placeholder='Share your thoughts...'
+              placeholder={t('contact.form.placeholders.message')}
               autoComplete='message'
               value={formData.message}
               onChange={handleChange}
@@ -129,7 +130,7 @@ const Contact: React.FC = () => {
             type='submit'
             className='w-full px-1 py-3 text-lg text-center rounded-md cursor-pointer bg-radial from-lavender to-royal hover-animation'
           >
-            {!isLoading ? 'Send' : 'Sending...'}
+            {!isLoading ? t('contact.form.send') : t('contact.form.sending')}
           </button>
         </form>
       </div>
