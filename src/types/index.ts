@@ -98,7 +98,7 @@ export interface MarqueeProps {
 
 // OrbitingCircles types
 export interface OrbitingCirclesProps {
-  className: string;
+  className?: string;
   children: React.ReactNode;
   reverse?: boolean;
   duration?: number;

@@ -3,7 +3,7 @@ import React from 'react';
 import { OrbitingCirclesProps } from '../types';
 
 export function OrbitingCircles({
-  className,
+  className = '',
   children,
   reverse,
   duration = 20,
