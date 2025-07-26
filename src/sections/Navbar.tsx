@@ -34,13 +34,13 @@ const Navbar: React.FC = () => {
     <div className='fixed inset-x-0 z-20 w-full backdrop-blur-lg bg-primary/40'>
       <div className='mx-auto c-space max-w-7xl'>
         <div className='flex items-center justify-between py-2 sm:py-0'>
-          <a
-            href='/'
-            className='text-xl font-bold transition-colors text-neutral-400 hover:text-white'
-          >
+          <span className='text-xl font-bold transition-colors text-neutral-400'>
             @mazurovandre
-          </a>
+          </span>
           <div className='flex items-center gap-4'>
+            <nav className='hidden sm:flex'>
+              <Navigation />
+            </nav>
             <LanguageSwitcher />
             <button
               onClick={() => setIsOpen(!isOpen)}
@@ -53,9 +53,6 @@ const Navbar: React.FC = () => {
               />
             </button>
           </div>
-          <nav className='hidden sm:flex'>
-            <Navigation />
-          </nav>
         </div>
       </div>
       {isOpen && (
